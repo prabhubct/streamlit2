@@ -2,22 +2,25 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import tensorflow as tf
-import gdown
 import os
+import gdown
 
-st.title("another app")
 
-MODEL_PATH = "Best_model.hdf5"
-# MODEL_URL = "https://drive.google.com/uc?id=1QmhKGu4xQf5g_93Ts_hH54MAhsV25gOo"
-# This is on our google drive AND WE HAVE COPY PASTE3D AFTER d/
-# https://drive.google.com/file/d/1QmhKGu4xQf5g_93Ts_hH54MAhsV25gOo/view?usp=sharing
+st.title("CAFT")
+
+MODEL_PATH = "best_model.hdf5"
+MODEL_URL = "https://drive.google.com/uc?id=1eH7NtZeqwtniqtgkj8sov2a4H3jMbLkG"
+
+# https://drive.google.com/file/d/1eH7NtZeqwtniqtgkj8sov2a4H3jMbLkG/view?usp=sharing
+
 # Load the model only once
 @st.cache_resource
 def load_model():
     if not os.path.exists(MODEL_PATH):
-       st.info("Downloading model, please wait...")
-       gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
-    model = tf.keras.models.load_model("best_model.hdf5")
+        st.info("Downloading model, please wait...")
+        gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+    model = tf.keras.models.load_model(MODEL_PATH)
+    # model = tf.keras.models.load_model("best_model.hdf5")
     return model
 
 model = load_model()
@@ -54,6 +57,7 @@ if st.session_state.page == "home":
 # Upload Image Page
 elif st.session_state.page == "upload":
     st.title("📷 Upload Image")
+    #st.file_uploader()
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
     if uploaded_file:
         st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
